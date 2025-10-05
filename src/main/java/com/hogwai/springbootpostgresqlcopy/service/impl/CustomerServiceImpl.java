@@ -1,24 +1,17 @@
-package com.hogwai.springbootmultitenancy.service.impl;
+package com.hogwai.springbootpostgresqlcopy.service.impl;
 
 
-import com.hogwai.springbootmultitenancy.model.Customer;
-import com.hogwai.springbootmultitenancy.record.CustomerRecord;
-import com.hogwai.springbootmultitenancy.repository.CustomerRepository;
-import com.hogwai.springbootmultitenancy.service.CustomerService;
-import com.hogwai.springbootmultitenancy.util.CustomerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.hogwai.springbootpostgresqlcopy.model.Customer;
+import com.hogwai.springbootpostgresqlcopy.repository.CustomerRepository;
+import com.hogwai.springbootpostgresqlcopy.service.CustomerService;
+import com.hogwai.springbootpostgresqlcopy.util.CustomerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-
-    private static final Logger log = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
     private final CustomerRepository customerRepository;
 
@@ -35,7 +28,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public void insertCustomers(Integer customerNumber) {
-        List<Customer> customers = CustomerFactory.generateCustomers(customerNumber, 0);
-        customerRepository.saveAll(customers);
+        List<Customer> customers = CustomerFactory.generateCustomers(customerNumber, getMaxCustomerId() + 1);
+        customerRepository.insertWithCopy(customers);
+        customerRepository.incrementSequence();
+    }
+
+    private int getMaxCustomerId() {
+        Integer lastCustomerId = customerRepository.findMaxCustomerId();
+        return lastCustomerId == null ? 0 : lastCustomerId;
     }
 }

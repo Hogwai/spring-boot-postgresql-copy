@@ -1,6 +1,6 @@
-package com.hogwai.springbootmultitenancy.record;
+package com.hogwai.springbootpostgresqlcopy.record;
 
-import com.hogwai.springbootmultitenancy.model.Customer;
+import com.hogwai.springbootpostgresqlcopy.model.Customer;
 import lombok.Builder;
 
 import java.util.Date;

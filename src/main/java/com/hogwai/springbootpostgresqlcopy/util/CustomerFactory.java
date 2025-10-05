@@ -1,7 +1,8 @@
-package com.hogwai.springbootmultitenancy.util;
+package com.hogwai.springbootpostgresqlcopy.util;
 
 
-import com.hogwai.springbootmultitenancy.model.Customer;
+
+import com.hogwai.springbootpostgresqlcopy.model.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class CustomerFactory {
         List<Customer> customers = new ArrayList<>(number);
         for (int i = startId; i < startId + number; i++) {
             Customer customer = Customer.builder()
+                    .id((long) i)
                     .firstName(generateRandomString())
                     .lastName(generateRandomString())
                     .address(generateRandomString())

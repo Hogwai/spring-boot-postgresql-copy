@@ -1,7 +1,7 @@
-package com.hogwai.springbootmultitenancy.controller;
+package com.hogwai.springbootpostgresqlcopy.controller;
 
-import com.hogwai.springbootmultitenancy.model.Customer;
-import com.hogwai.springbootmultitenancy.service.CustomerService;
+import com.hogwai.springbootpostgresqlcopy.model.Customer;
+import com.hogwai.springbootpostgresqlcopy.service.CustomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class CustomerController {
         return ResponseEntity.ok(customers);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/insert-copy")
     public ResponseEntity<Void> insertCustomers(@RequestParam Integer customerNumber) {
         customerService.insertCustomers(customerNumber);
         return ResponseEntity.ok().build();

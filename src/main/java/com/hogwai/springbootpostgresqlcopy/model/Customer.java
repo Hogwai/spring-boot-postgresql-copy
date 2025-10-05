@@ -1,4 +1,4 @@
-package com.hogwai.springbootmultitenancy.model;
+package com.hogwai.springbootpostgresqlcopy.model;
 
 import jakarta.persistence.*;
 import lombok.*;

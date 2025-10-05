@@ -1,4 +1,4 @@
-package com.hogwai.spring_boot_postgresql_copy;
+package com.hogwai.springbootpostgresqlcopy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,8 +1,7 @@
-package com.hogwai.springbootmultitenancy.service;
+package com.hogwai.springbootpostgresqlcopy.service;
 
 
-import com.hogwai.springbootmultitenancy.model.Customer;
-import com.hogwai.springbootmultitenancy.record.CustomerRecord;
+import com.hogwai.springbootpostgresqlcopy.model.Customer;
 
 import java.util.List;
 
