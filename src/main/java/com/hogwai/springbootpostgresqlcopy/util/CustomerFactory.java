@@ -1,9 +1,9 @@
 package com.hogwai.springbootpostgresqlcopy.util;
 
 
-
 import com.hogwai.springbootpostgresqlcopy.model.Customer;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class CustomerFactory {
     }
 
     public static List<Customer> generateCustomers(Integer number, Integer startId) {
-        java.sql.Date creationDate = new java.sql.Date(new java.util.Date().getTime());
+        LocalDateTime creationDate = LocalDateTime.now();
         List<Customer> customers = new ArrayList<>(number);
         for (int i = startId; i < startId + number; i++) {
             Customer customer = Customer.builder()

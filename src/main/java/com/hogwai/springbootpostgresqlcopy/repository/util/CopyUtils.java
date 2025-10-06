@@ -16,16 +16,12 @@ import java.util.List;
 public class CopyUtils {
 
     private static final String COPY_STMT = "COPY %s (%s) FROM STDIN";
-    private final DataSource dataSource;
-
-    public CopyUtils(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     public <T> void insertWithCopy(String tableName,
                                    List<String> columns,
                                    List<T> entities,
-                                   CopyMapper<T> mapper) {
+                                   CopyMapper<T> mapper,
+                                   DataSource dataSource) {
         if (CollectionUtils.isEmpty(entities)) {
             throw new IllegalArgumentException("No entities provided");
         }

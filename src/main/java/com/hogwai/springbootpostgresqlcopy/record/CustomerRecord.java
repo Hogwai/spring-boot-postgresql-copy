@@ -3,7 +3,7 @@ package com.hogwai.springbootpostgresqlcopy.record;
 import com.hogwai.springbootpostgresqlcopy.model.Customer;
 import lombok.Builder;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 public record CustomerRecord(String firstName,
@@ -11,8 +11,8 @@ public record CustomerRecord(String firstName,
                              String country,
                              String address,
                              String city,
-                             Date creationDate,
-                             Date updateDate,
+                             LocalDateTime creationDate,
+                             LocalDateTime updateDate,
                              String stores) {
     public static CustomerRecord toRecord(Customer customer) {
         return CustomerRecord.builder()

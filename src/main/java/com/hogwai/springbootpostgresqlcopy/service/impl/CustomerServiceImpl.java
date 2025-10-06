@@ -33,6 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.incrementSequence();
     }
 
+    @Transactional
+    @Override
+    public void bulkInsertCustomers(Integer customerNumber) {
+        List<Customer> customers = CustomerFactory.generateCustomers(customerNumber, getMaxCustomerId() + 1);
+        customerRepository.bulkInsert(customers);
+        customerRepository.incrementSequence();
+    }
+
     private int getMaxCustomerId() {
         Integer lastCustomerId = customerRepository.findMaxCustomerId();
         return lastCustomerId == null ? 0 : lastCustomerId;

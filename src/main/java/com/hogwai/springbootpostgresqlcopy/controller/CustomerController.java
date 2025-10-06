@@ -32,4 +32,11 @@ public class CustomerController {
         customerService.insertCustomers(customerNumber);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/insert-bulk-processor")
+    public ResponseEntity<Void> bulkInsertCustomers(@RequestParam Integer customerNumber) {
+        customerService.bulkInsertCustomers(customerNumber);
+        return ResponseEntity.ok()
+                             .build();
+    }
 }

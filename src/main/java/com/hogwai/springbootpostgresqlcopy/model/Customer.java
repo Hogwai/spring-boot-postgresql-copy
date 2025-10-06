@@ -3,7 +3,7 @@ package com.hogwai.springbootpostgresqlcopy.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -21,6 +21,6 @@ public class Customer {
     private String country;
     private String address;
     private String city;
-    private Date creationDate;
-    private Date updateDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime updateDate;
 }

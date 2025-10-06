@@ -1,15 +1,21 @@
 package com.hogwai.springbootpostgresqlcopy.repository.impl;
 
 import com.hogwai.springbootpostgresqlcopy.model.Customer;
-import com.hogwai.springbootpostgresqlcopy.repository.util.CopyMapper;
+import com.hogwai.springbootpostgresqlcopy.model.CustomerMapping;
 import com.hogwai.springbootpostgresqlcopy.repository.CustomerCopyRepository;
+import com.hogwai.springbootpostgresqlcopy.repository.util.CopyMapper;
 import com.hogwai.springbootpostgresqlcopy.repository.util.CopyUtils;
+import de.bytefish.pgbulkinsert.PgBulkInsert;
+import de.bytefish.pgbulkinsert.util.PostgreSqlUtils;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.List;
 
 @Repository
 public class CustomerCopyRepositoryImpl implements CustomerCopyRepository {
+
     public static final List<String> CUSTOMER_COLUMNS = List.of(
             "id",
             "first_name",
@@ -21,11 +27,17 @@ public class CustomerCopyRepositoryImpl implements CustomerCopyRepository {
     );
     public static final String CUSTOMER = "customer";
     private final CopyUtils copyUtils;
+    private final DataSource dataSource;
 
-    public CustomerCopyRepositoryImpl(CopyUtils copyUtils) {
+    public CustomerCopyRepositoryImpl(DataSource dataSource,
+                                      CopyUtils copyUtils) {
+        this.dataSource = dataSource;
         this.copyUtils = copyUtils;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void insertWithCopy(List<Customer> customers) {
         CopyMapper<Customer> customerMapper = customer -> new String[]{
@@ -38,6 +50,20 @@ public class CustomerCopyRepositoryImpl implements CustomerCopyRepository {
                 customer.getCreationDate().toString()
         };
 
-        copyUtils.insertWithCopy(CUSTOMER, CUSTOMER_COLUMNS, customers, customerMapper);
+        copyUtils.insertWithCopy(CUSTOMER, CUSTOMER_COLUMNS, customers, customerMapper, dataSource);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bulkInsert(List<Customer> customers) {
+        PgBulkInsert<Customer> bulkInsert = new PgBulkInsert<>(new CustomerMapping());
+
+        try (Connection conn = dataSource.getConnection()) {
+            bulkInsert.saveAll(PostgreSqlUtils.getPGConnection(conn), customers);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while bulk inserting", e);
+        }
     }
 }
